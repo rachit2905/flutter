@@ -1,20 +1,19 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 
-class Homepage extends StatelessWidget {
-  const Homepage({super.key});
-
+class HomePage extends StatelessWidget {
+  final int days = 30;
+  final String name = "rachit";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("mera pehla app"),
+        title: Text("Catalog App"),
       ),
       body: Center(
-        // ignore: avoid_unnecessary_containers
         child: Container(
-          child: const Text("Welcome to myapp"),
+          child: Text("Welcome to my app"),
         ),
       ),
       drawer: Drawer(),

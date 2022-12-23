@@ -8,15 +8,31 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-String name = "";
-bool changedButton = false;
-
 class _LoginPageState extends State<LoginPage> {
+  String name = "";
+  bool changedButton = false;
+  final _formKey = GlobalKey<FormState>();
+  moveToHome(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        changedButton = true;
+      });
+
+      await Future.delayed(Duration(seconds: 2));
+      await Navigator.pushNamed(context, MyRoutes.homeRoute);
+      setState(() {
+        changedButton = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
         color: Colors.white,
         child: SingleChildScrollView(
+            child: Form(
+          key: _formKey,
           child: Column(
             children: [
               Image.asset(
@@ -46,6 +62,12 @@ class _LoginPageState extends State<LoginPage> {
                         hintText: "Enter username",
                         labelText: "Username",
                       ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return ("Username can't be empty");
+                        }
+                        return null;
+                      },
                       onChanged: (value) {
                         name = value;
                         setState(() {});
@@ -57,19 +79,20 @@ class _LoginPageState extends State<LoginPage> {
                         hintText: "Enter password",
                         labelText: "Password",
                       ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return ("Password can't be empty");
+                        } else if (value.length < 6) {
+                          return "Password length should be greater than 6";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(
                       height: 40.0,
                     ),
                     InkWell(
-                        onTap: () async {
-                          setState(() {
-                            changedButton = true;
-                          });
-
-                          await Future.delayed(Duration(seconds: 2));
-                          Navigator.pushNamed(context, MyRoutes.homeRoute);
-                        },
+                        onTap: () => moveToHome(context),
                         child: AnimatedContainer(
                           duration: Duration(seconds: 1),
                           width: changedButton ? 50 : 150,
@@ -104,6 +127,6 @@ class _LoginPageState extends State<LoginPage> {
               )
             ],
           ),
-        ));
+        )));
   }
 }

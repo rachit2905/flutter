@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, null_closures
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -40,4 +40,7 @@ class Item {
 
 class CatalogModel {
   static List<Item> products = [];
+  static Item getById(int id) =>
+      products.firstWhere((element) => element.id == id, orElse: null);
+  static Item getByPosition(int position) => products[position];
 }
